@@ -1,0 +1,39 @@
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+  repository_dispatch:
+    types: content-changed
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: | 
+          5.0.x
+          6.0.x
+    - name: Install native dependencies
+      run: dotnet workload install wasm-tools
+    - name: Publish
+      run: dotnet publish --configuration Release -o ../output 
+      working-directory: src
+    - name: "Artifact : site"
+      uses: actions/upload-artifact@v2
+      with:
+        name: "Site"
+        path: ./output     
+    - name: Deploy 🚀
+      if: github.ref == 'refs/heads/master' # Protect from unintentional deploy
+      uses: JamesIves/github-pages-deploy-action@3.6.2
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: output/wwwroot
+        CLEAN: true # Automatically remove deleted files from the deploy branch

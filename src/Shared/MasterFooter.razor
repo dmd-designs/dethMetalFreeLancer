@@ -1,0 +1,46 @@
+<footer class="footer text-center">
+    <div class="container">
+        <div class="row">
+
+            <!-- Footer Location -->
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h4 class="text-uppercase mb-4">@LeftColumnTitle</h4>
+                <p class="lead mb-0">
+                    @((MarkupString)LeftColumnText)
+                </p>
+            </div>
+
+            <!-- Footer Social Icons -->
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h4 class="text-uppercase mb-4">@MiddleColumnTitle</h4>
+                @if (FontAwesomeLinks != null)
+                {
+                    @foreach (var link in FontAwesomeLinks)
+                    {
+                        <a class="btn btn-outline-light btn-social mx-1" href="@link.Url">
+                            <i class="@($"fab fa-fw {link.FaCodename}")"></i>
+                        </a>
+                    }
+                }
+            </div>
+
+            <!-- Footer About Text -->
+            <div class="col-lg-4">
+                <h4 class="text-uppercase mb-4">@RightColumnTitle</h4>
+                <p class="lead mb-0">
+                    @((MarkupString)RightColumnText)
+                </p>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+@code {
+    [Parameter] public string LeftColumnText { get; set; }
+    [Parameter] public string LeftColumnTitle { get; set; }
+    [Parameter] public string MiddleColumnTitle { get; set; }
+    [Parameter] public IEnumerable<FontAwesomeLink> FontAwesomeLinks { get; set; }
+    [Parameter] public string RightColumnTitle { get; set; }
+    [Parameter] public string RightColumnText { get; set; }
+}

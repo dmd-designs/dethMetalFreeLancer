@@ -1,0 +1,41 @@
+@using StartBootstrap.Freelancer.Blazor.Models
+
+@inject IDeliveryClient DeliveryClient
+
+@inherits LayoutComponentBase
+<!-- Navigation menu -->
+<NavMenu NavigationItems="@home?.NavigationItemsTyped" SiteTitle="@home?.SiteTitle" />
+
+<!-- Masthead -->
+<MasterHeader SiteTitle="@home?.SiteTitle" HeaderSubtitle="@home?.HeaderSubtitle" Avatar="home?.Avatar.FirstOrDefault()" />
+
+<!-- Portfolio Section -->
+<Portfolio PortfolioItems="@home?.PortfolioItemsTyped" />
+
+<!-- About Section -->
+<About LeftColumnText="@home?.AboutLeftColumn" RightColumnText="@home?.AboutRightColumn" Title="@home?.AboutTitle" Button="@home?.AboutButtonTyped.FirstOrDefault()" />
+
+<!-- Contact Section -->
+<Contact Title="@home?.ContactTitle" ButtonText="@home?.ContactButtonText" />
+
+<!-- Footer -->
+<MasterFooter LeftColumnTitle="@home?.FooterLeftColumnTitle" LeftColumnText="@home?.FooterLeftColumnText" MiddleColumnTitle="@home?.FooterMiddleColumnTitle" FontAwesomeLinks="@home?.FooterMiddleColumnLinksTyped" RightColumnText="@home?.FooterRightColumnText" RightColumnTitle="@home?.FooterRightColumnTitle" />
+
+<!-- Copyright Section -->
+<Copyright CopyrightNote="@home?.SiteCopyrightNote" />
+
+<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+<ScrollToTop />
+
+<!-- Portfolio Modals -->
+<Modal PortfolioItems="@home?.PortfolioItemsTyped" />
+
+
+@code {
+    Home home;
+
+    protected override async Task OnInitializedAsync()
+    {
+        home = (await DeliveryClient.GetItemAsync<Home>("home")).Item;
+    }
+}
